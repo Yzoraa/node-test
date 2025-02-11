@@ -11,9 +11,8 @@ app.use("/static", express.static(__dirname + "/static"));
 app.set("view engine", "ejs");
 app.set("views", "./views");
 
-//req: 프론트에서 요청하는 것들
 app.get("/", (req, res) => {
-  res.render("practice");
+  res.render("join");
 });
 
 let data = [];
