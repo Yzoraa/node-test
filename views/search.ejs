@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>검색 결과</title>
+</head>
+<body>
+  <h3>검색 결과</h3>
+
+  <div id="searchTable"></div>
+
+  <br /><br />
+  <a href="/">홈으로 이동</a>
+</body>
+<script>
+  const userList = <%- JSON.stringify(userList) %>;  // 서버에서 전달된 데이터
+
+  const tableContainer = document.getElementById("searchTable");
+  if (userList.length > 0) {
+    let tableHTML = `
+      <table border="1">
+        <thead>
+          <tr>
+            <th>이메일</th>
+            <th>회원 이름</th>
+            <th>나이</th>
+          </tr>
+        </thead>
+        <tbody>
+    `;
+
+    userList.forEach(user => {
+      tableHTML += `
+        <tr>
+          <td>${user.email}</td>
+          <td>${user.username}</td>
+          <td>${user.age}</td>
+        </tr>
+      `;
+    });
+
+    tableHTML += `</tbody></table>`;
+    tableContainer.innerHTML = tableHTML;
+  } else {
+    tableContainer.innerHTML = "<p>검색 결과가 없습니다.</p>";
+  }
+</script>
+</html>
