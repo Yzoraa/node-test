@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <div class="box">
+
+    </div>
+</body>
+</html>
+
+<script>
+    const data = ['slkdjaldjas66', 'sksanakj1', 'lzxjckjfawd25', 'lsaksffs25', 'lkasdlkaskg2', 'lkaladksd124', 'kaslfklaf552', 
+                    'kalksdkaw1124', 'jahajhwd552', 'dldlskqpsd5521', 'dadkdjwq532', 'aslsakal1234', 'asldklkfak21234', 'asldkkadkarwar7', 
+                    'askjakjdal5', 'asjaskdvw1', 'asdadw124s1', 'aksdkwk241', 'akhskfhdhs9', 'akgjkjgksj5'];
+    const box = document.querySelector(".box");
+
+    data.forEach((item, index) => {
+        const button = document.createElement("button");
+        button.innerText = `버튼 ${index + 1}`;
+        button.onclick = () => {
+            pageMove(item)
+        };
+        box.appendChild(button);
+    });
+
+    // axios 요청 테스트
+    const pageMove = (type) =>{
+        window.location.href = `http://localhost:3000/${type}`;
+    };
+
+    // const onClick = () =>{
+    //     axios({
+    //         method: "post",
+    //         url: "/axiospost",
+    //         data: data
+    //     }).then((res)=>{
+    //         console.log(res, '뭐라고 나오니');
+    //     });
+    // };
+
+    // axios({
+        //     method: "get",
+        //     url: "/page1"
+        // }).then((res)=>{
+        //     window.location.href("/page");
+        // });
+</script>

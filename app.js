@@ -1,4 +1,19 @@
 const express = require("express");
+const multer = require("multer");
+const path = require("path");
+
+const uploadDetail = multer.diskStorage({
+  destination:(req, file, cb) =>{
+    cb(null, "uploads/");
+  },
+  filename: (req, file, cb) =>{
+    const ext = path.extname(file.originalname); // 원본 파일 명에서 확장자 추출
+    cb(null, path.basename(file.originalname, ext) + Date.now() + ext); // 파일명에 타임스탬프+확장자 포함시켜 저장
+  },
+});
+
+const upload = multer({uploadDetail});
+
 const app = express();
 const port = 3000;
 
@@ -12,7 +27,33 @@ app.set("view engine", "ejs");
 app.set("views", "./views");
 
 app.get("/", (req, res) => {
-  res.render("join");
+    res.render("main3");
+});
+
+app.post("/upload", upload.single('files'), (req, res) =>{
+    console.log(req.file, "파일");
+    console.log(req.body, '잘담겨라');
+    res.render({url:`upload/${req.file.filename}`})
+});
+
+
+
+app.get("/axiosget",(req, res) =>{
+  console.log(req.query, '백엔드 들어옴!');
+  res.send(req.query);
+});
+
+app.post("/axiospost",(req, res) =>{
+  // 저장된 값
+  const coreectData = {id: "123", pwd:"123"};
+  const userData = {id: req.body.id, pwd: req.body.pwd};
+
+  if(coreectData.id === userData.id && coreectData.pwd === userData.pwd){
+    res.send('성공')
+  } else{
+    res.send('실패')
+  }
+  console.log(req.body, '로그인 정보다!');
 });
 
 let data = [];
@@ -36,9 +77,9 @@ app.get("/userinfo", (req, res) =>{
 });
 
 // 페이지 이동
-// app.get("/test2", (req, res) => {
-//     res.render("test2");
-//   });
+app.get("/test2", (req, res) => {
+    res.render("test2");
+  });
 
 app.listen(port, () => {
   console.log(`서버 실행 ${port}`);

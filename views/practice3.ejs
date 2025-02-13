@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <!-- axios get 회원가입 -->
+    <form>
+        <div class="content">
+            이름<input type="text" name="name" />
+        </div>
+        <div class="content">
+            <div>성별</div>
+            <input type="radio" name="gender" value="남성" />남자
+            <input type="radio" name="gender" value="여성" />여자
+        </div>
+        <div class="content">
+            <div>생년월일</div>
+            <select name="year">
+                <% for(let i= 1990; i <=2024; i ++){ %>
+                <option value="<%= i%>"><%= i%></option>
+                <% } %></select>년
+              <select name="month">
+                <% for(let i= 1; i <=12; i ++){ %>
+                <option value="<%= i%>"><%= i%></option>
+                <% } %> ></select>월
+              <select name="day">
+                <% for(let i= 1; i <=31; i ++){ %>
+                <option value="<%= i%>"><%= i%></option>
+                <% } %></select>일
+        </div>
+        <div class="content">
+            <div>관심사</div>
+            <input type="checkbox" value="여행" name="hobby" id="hobby1" />여행
+            <input type="checkbox" value="패션" name="hobby" id="hobby2" />패션
+            <input type="checkbox" value="음식" name="hobby" id="hobby3" />음식
+        </div>
+
+        <button onclick="onClick()">회원가입</button>
+    </form>
+</body>
+</html>
+
+<script>
+    const onClick = () =>{
+        event.preventDefault();
+        const form = document.querySelector("form");
+        const selectHobby = Array.from(form.querySelectorAll('input[name="hobby"]:checked')).map((x) => x.value);
+
+        const data = {
+        name: form.name.value,
+        gender: form.gender.value,
+        year: form.year.value,
+        month: form.month.value,
+        day: form.day.value,
+        hobby: selectHobby
+        };
+
+        console.log(data);
+
+        axios({
+            method: "get",
+            url: "/axiosget",
+            params: data
+        }).then((res)=>{
+            console.log("확인용", res);
+        });
+    };
+</script>
