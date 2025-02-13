@@ -4,25 +4,84 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
     <!-- 싱글 -->
-     <h1>파일 한개 올리기</h1>
+    <!-- <h1>파일 한개 올리기</h1>
     <form action="/upload" method="post" enctype="multipart/form-data">
         <input type="file" name="files" /><br />
         <input type="text" name="title" /><br />
         <button type="submit">업로드</button>
-    </form>
-    <!-- <h3>파일한개</h3>
-    <div class="file1">
+    </form> -->
 
-    </div> -->
+    <h3>파일 1개</h3>
+    <input type="file" name="dynamic-file" id="dynamic-file" /><br />
+    <input type="text" name="title" id="title" /><br />
+    <button type="button" onclick="fileUpload()">업로드</button><br />
+    <div class="result"></div>
 
-    <div id="result">
-        <!-- 이미지 잘 왔다 <img src="" alt="돼?" width="300px" height="300px"/> -->
-    </div>
+    <h3>파일 2개</h3>
+    <input type="file" name="dynamic-file2" id="dynamic-file2" multiple /><br />
+    <input type="text" name="title2" id="title2" /><br />
+    <button type="button" onclick="fileUpload2()">업로드</button><br />
+    <div class="result2"></div>
+
+
 </body>
 </html>
+
 <script>
-    // 엑시오스로 
+    const resultBox = document.querySelector('.result');
+    const resultBox2 = document.querySelector('.result2');
+
+    function fileUpload() {
+        const file = document.getElementById('dynamic-file');
+        console.log(file.files[0], '첫번째 콘솔');
+        const title = document.getElementById('title');
+
+        const formData = new FormData();
+        formData.append('title', title.value)
+        formData.append('dynamic-file', file.files[0]);
+
+        axios({
+            method: 'post',
+            url: '/dynamicFile',
+            data: formData,
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        }).then(res => {
+            console.log('res', res);
+            resultBox.innerHTML = `<div><img src=${res.data.path}></div>`;
+        })
+    }
+
+    function fileUpload2() {
+        const file2 = document.getElementById('dynamic-file2');
+        const files = file2.files
+        const title2 = document.getElementById('title');
+
+        const formData2 = new FormData();
+        formData2.append('title2', title2.value)
+
+        for (let i = 0; i < files.length; i++) {
+            formData2.append('dynamic-file2', files[i]);
+        }
+
+        axios({
+            method: 'post',
+            url: '/dynamicFile2',
+            data: formData2,
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        }).then(res => {
+            console.log('res', res);
+            resultBox2.innerHTML = res.data.map(x => 
+                `<div><img src="${x.path}" width="200"></div>`
+            );
+        })
+    }
+
 </script>
