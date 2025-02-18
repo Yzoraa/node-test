@@ -1,18 +1,23 @@
 const express = require("express");
-const path = require("path");
-const multer = require("multer");
+// const path = require("path");
+// const multer = require("multer");
 
-const storage = multer.diskStorage({
-  destination:(req, file, cb) =>{
-    cb(null, "uploads/");
-  },
-  filename: (req, file, cb) =>{
-    const ext = path.extname(file.originalname); // 원본 파일 명에서 확장자 추출
-    cb(null, path.basename(file.originalname, ext) + Date.now() + ext); // 파일명에 타임스탬프+확장자 포함시켜 저장
-  },
-});
+// 라우팅 파일 불러오기
+const userRouters = require("./routes/userRoutes");
+const itmeRouters = require("./routes/itemRoutes");
+const actorRouters = require("./routes/actorRoutes"); 
 
-const upload = multer({storage});
+// const storage = multer.diskStorage({
+//   destination:(req, file, cb) =>{
+//     cb(null, "uploads/");
+//   },
+//   filename: (req, file, cb) =>{
+//     const ext = path.extname(file.originalname); // 원본 파일 명에서 확장자 추출
+//     cb(null, path.basename(file.originalname, ext) + Date.now() + ext); // 파일명에 타임스탬프+확장자 포함시켜 저장
+//   },
+// });
+
+// const upload = multer({storage});
 
 const app = express();
 const port = 3000;
@@ -24,22 +29,28 @@ app.use(express.json());
 app.use("/static", express.static(__dirname + "/static"));
 app.use("/uploads", express.static(__dirname + "/uploads"))
 
+//  /users 경로에 대한 라우팅 처리
+app.use("/users", userRouters); // '/users'에 대한 요청은 userRouters로 처리
+app.use("/items", itmeRouters);
+app.use("/actors", actorRouters);
+
 app.set("view engine", "ejs");
 app.set("views", "./views");
 
+// 기본 홈 라우트
 app.get("/", (req, res) => {
-    res.render("main3");
+    res.render("index", {title: "mvc패턴"});
 });
 
-app.post("/dynamicFile", upload.single('dynamic-file'), (req, res) =>{
-  console.log(req.file, '파일');
-  res.send(req.file);
-})
+// app.post("/dynamicFile", upload.single('dynamic-file'), (req, res) =>{
+//   console.log(req.file, '파일');
+//   res.send(req.file);
+// })
 
-app.post("/dynamicFile2", upload.array('dynamic-file2'), (req, res) =>{
-  console.log(req.files, '파일');
-  res.send(req.files.map(x =>({ path: `/uploads/${x.filename}`})));
-})
+// app.post("/dynamicFile2", upload.array('dynamic-file2'), (req, res) =>{
+//   console.log(req.files, '파일');
+//   res.send(req.files.map(x =>({ path: `/uploads/${x.filename}`})));
+// })
 
 // app.post("/upload", upload.single('files'), (req, res) =>{
 //     console.log(req.file, "파일");

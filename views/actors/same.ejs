@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>같은 작품 출연한 배우 리스트</h1>
+
+    <!-- 영화 테이블 -->
+    <h2>같은 영화에 출연한 배우</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>제목</th>
+                <th>배우 이름</th>
+                <th>역할</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% same.movie.forEach(movieGroup => { %>
+                <% movieGroup.forEach(actor => { %>
+                    <tr>
+                        <td><%= actor.title %></td>
+                        <td><%= actor.actorName %></td>
+                        <td><%= actor.role %></td>
+                    </tr>
+                <% }) %>
+            <% }) %>
+        </tbody>
+    </table>
+
+    <!-- 드라마 테이블 -->
+    <h2>같은 드라마에 출연한 배우</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>제목</th>
+                <th>배우 이름</th>
+                <th>역할</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% same.drama.forEach(dramaGroup => { %>
+                <% dramaGroup.forEach(actor => { %>
+                    <tr>
+                        <td><%= actor.title %></td>
+                        <td><%= actor.actorName %></td>
+                        <td><%= actor.role %></td>
+                    </tr>
+                <% }) %>
+            <% }) %>
+        </tbody>
+    </table>
+
+    <!-- 뮤지컬 테이블 -->
+    <h2>같은 뮤지컬에 출연한 배우</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>제목</th>
+                <th>배우 이름</th>
+                <th>역할</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% same.musical.forEach(musicalGroup => { %>
+                <% musicalGroup.forEach(actor => { %>
+                    <tr>
+                        <td><%= actor.title %></td>
+                        <td><%= actor.actorName %></td>
+                        <td><%= actor.role %></td>
+                    </tr>
+                <% }) %>
+            <% }) %>
+        </tbody>
+    </table>
+
+    <br /><br />
+    <a href="/">전체 배우 리스트</a>
+</body>
+</html>
